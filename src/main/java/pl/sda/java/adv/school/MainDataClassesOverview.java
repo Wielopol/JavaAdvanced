@@ -3,8 +3,10 @@ package pl.sda.java.adv.school;
 import pl.sda.java.adv.school.model.Person;
 import pl.sda.java.adv.school.model.Student;
 import pl.sda.java.adv.school.model.Teacher;
+import pl.sda.java.adv.school.util.PersonFirstNameLastNameComparator;
 
 import java.util.*;
+import java.util.function.Consumer;
 
 public class MainDataClassesOverview {
 
@@ -98,5 +100,65 @@ public class MainDataClassesOverview {
         Collections.sort(peopleList);
 
         peopleList.forEach(System.out::println);
+
+        System.out.println("\nLet's use Comparator");
+
+//        Collections.sort(peopleList,PersonFirstNameLastNameComparator.instance);
+
+//        Collections.sort(peopleList, new Comparator<Person>() {
+//            @Override
+//            public int compare(Person o1, Person o2) {
+//                int firstNameResult = o1.getFirstName().compareTo(o2.getFirstName());
+//                if (firstNameResult == 0) {
+//                    return o1.getLastName().compareTo(o2.getLastName());
+//                }
+//                return firstNameResult;
+//            }
+//        });
+
+//        Collections.sort(peopleList,new NestedPersonFirstNameLastNameComparator());
+
+        Collections.sort(peopleList,((o1, o2) -> {
+            int firstNameResult = o1.getFirstName().compareTo(o2.getFirstName());
+            if (firstNameResult == 0) {
+                return o1.getLastName().compareTo(o2.getLastName());
+            }
+            return firstNameResult;
+        }));
+
+//        peopleList.forEach(new Consumer<Person>() {
+//            @Override
+//            public void accept(Person person) {
+//                System.out.println(person);
+//            }
+//        });
+
+        peopleList.forEach(person -> System.out.println(person));
+    }
+
+    //Internal class (bound to object)
+    public class PersonFirstNameLastNameComparator implements Comparator<Person> {
+
+        @Override
+        public int compare(Person o1, Person o2) {
+            int firstNameResult = o1.getFirstName().compareTo(o2.getFirstName());
+            if (firstNameResult == 0) {
+                return o1.getLastName().compareTo(o2.getLastName());
+            }
+            return firstNameResult;
+        }
+    }
+
+    //Nested (static internal) class, available from static context
+    public static class NestedPersonFirstNameLastNameComparator implements Comparator<Person> {
+
+        @Override
+        public int compare(Person o1, Person o2) {
+            int firstNameResult = o1.getFirstName().compareTo(o2.getFirstName());
+            if (firstNameResult == 0) {
+                return o1.getLastName().compareTo(o2.getLastName());
+            }
+            return firstNameResult;
+        }
     }
 }
