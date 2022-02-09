@@ -2,7 +2,7 @@ package pl.sda.java.adv.school.model;
 
 import java.time.LocalDate;
 
-public class Student {
+public class Student implements Comparable<Student> {
     private String id;
     private String lastName;
     private String firstName;
@@ -88,5 +88,14 @@ public class Student {
                 ", birthDate=" + birthDate +
                 ", address=" + address +
                 '}';
+    }
+
+    @Override
+    public int compareTo(Student o) {
+        int lastNameResult = lastName.compareTo(o.lastName);
+        if (lastNameResult != 0) {
+            return lastNameResult;
+        }
+        return firstName.compareTo(o.firstName);
     }
 }
