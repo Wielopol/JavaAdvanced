@@ -1,11 +1,9 @@
 package pl.sda.java.adv.school;
 
 import pl.sda.java.adv.school.model.Student;
+import pl.sda.java.adv.school.model.Teacher;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class MainDataClassesOverview {
 
@@ -68,5 +66,25 @@ public class MainDataClassesOverview {
         Collections.sort(studentsArrayList);
 
         studentsArrayList.forEach(System.out::println);
+
+        Teacher teacher1 = new Teacher();
+        teacher1.setFirstName("Genowefa");
+        teacher1.setLastName("Pompke");
+        teacher1.setClassTypes(Set.of("MAT","INF"));
+
+        Teacher teacher2 = new Teacher();
+        teacher2.setFirstName("Adam");
+        teacher2.setLastName("Juzprzekladam");
+        Set<String> classesSet = new HashSet<>();
+        classesSet.add("POL");
+        classesSet.add("HIS");
+        classesSet.add("POL");
+        teacher2.setClassTypes(classesSet);
+
+        List<Teacher> teachersList = new LinkedList<>();
+        teachersList.add(teacher1);
+        teachersList.add(teacher2);
+
+        teachersList.forEach(System.out::println);
     }
 }
