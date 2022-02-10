@@ -15,7 +15,7 @@ public class MainStudentsLoader {
         List<Student> students;
 
         try (InputStream inputStream = Files.newInputStream(Path.of("students.csv"))) {
-            students = csvStudentsLoader.loadStudents(inputStream);
+            students = csvStudentsLoader.loadData(inputStream);
         } catch (IOException e) {
             students = Collections.emptyList();
             e.printStackTrace();

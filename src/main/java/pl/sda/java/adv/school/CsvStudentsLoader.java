@@ -2,6 +2,7 @@ package pl.sda.java.adv.school;
 
 import pl.sda.java.adv.school.model.Address;
 import pl.sda.java.adv.school.model.Student;
+import pl.sda.java.adv.school.util.AbstractCsvLoader;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -13,27 +14,27 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
-public class CsvStudentsLoader {
+public class CsvStudentsLoader extends AbstractCsvLoader<Student> {
 
-    public List<Student> loadStudents(InputStream inputStream) throws IOException {
-        final InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-        final BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-        final List<Student> students = new LinkedList<>();
+//    public List<Student> loadData(InputStream inputStream) throws IOException {
+//        final InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+//        final BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+//        final List<Student> students = new LinkedList<>();
+//
+//        while (bufferedReader.ready()) {
+//            final String line = bufferedReader.readLine();
+//            System.out.println("Parsing line " + line);
+////            Student student = parseLine(line);
+////            if (student != null) {
+////                students.add(student);
+////            }
+//            parseLine(line).ifPresent(students::add);
+//        }
+//
+//        return Collections.unmodifiableList(students);
+//    }
 
-        while (bufferedReader.ready()) {
-            final String line = bufferedReader.readLine();
-            System.out.println("Parsing line " + line);
-//            Student student = parseLine(line);
-//            if (student != null) {
-//                students.add(student);
-//            }
-            parseLine(line).ifPresent(students::add);
-        }
-
-        return Collections.unmodifiableList(students);
-    }
-
-    private Optional<Student> parseLine(String line) {
+    protected Optional<Student> parseLine(String line) {
         Student student = new Student();
         String[] cells = line.replaceAll("\"","").split(",");
         if (cells.length != 10) {
