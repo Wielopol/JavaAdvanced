@@ -28,7 +28,7 @@ public class MainDataClassesOverview {
 
         Student student4 = new Student();
 
-        student4.setFirstName("Amadeusz");
+        student4.setFirstName("Adam");
         student4.setLastName("Tyrala");
 
         System.out.println("\nLet's have an array we can iterate over");
@@ -77,7 +77,7 @@ public class MainDataClassesOverview {
         teacher1.setClassTypes(Set.of("MAT","INF"));
 
         Teacher teacher2 = new Teacher();
-        teacher2.setFirstName("Adam");
+        teacher2.setFirstName("Amadeusz");
         teacher2.setLastName("Juzprzekladam");
         Set<String> classesSet = new HashSet<>();
         classesSet.add("POL");
@@ -126,6 +126,13 @@ public class MainDataClassesOverview {
             return firstNameResult;
         }));
 
+        //Compares using lastName (descending) and then firstName (ascending)
+        Comparator<Person> firstNameComparator = Comparator.comparing(Person::getLastName)
+                .reversed()
+                .thenComparing(Person::getFirstName);
+
+        Collections.sort(peopleList, firstNameComparator);
+
 //        peopleList.forEach(new Consumer<Person>() {
 //            @Override
 //            public void accept(Person person) {
@@ -134,6 +141,14 @@ public class MainDataClassesOverview {
 //        });
 
         peopleList.forEach(person -> System.out.println(person));
+
+        System.out.println("\nLet's use Iterator directly");
+
+        Iterator<Person> personIterator = peopleList.iterator();
+        while (personIterator.hasNext()) {
+            Person person = personIterator.next();
+            System.out.println(person);
+        }
     }
 
     //Internal class (bound to object)
