@@ -37,7 +37,7 @@ public class MainReadStudentsExamples {
 
 //        printContentsInCorrectOldSchoolWay(file2);
 
-        printContentsInModernWay(file3);
+        printContentsInModernWay(file1);
     }
 
     private static void printContentsInIncorrectWay(File file) throws IOException {
