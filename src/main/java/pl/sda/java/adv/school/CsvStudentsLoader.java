@@ -35,12 +35,12 @@ public class CsvStudentsLoader extends AbstractCsvLoader<Student> {
 //    }
 
     protected Optional<Student> parseLine(String line) {
-        Student student = new Student();
         String[] cells = line.replaceAll("\"","").split(",");
         if (cells.length != 10) {
             return Optional.empty();
         }
         try {
+            Student student = new Student();
             student.setId(cells[0]);
             student.setLastName(cells[1]);
             student.setFirstName(cells[2]);
