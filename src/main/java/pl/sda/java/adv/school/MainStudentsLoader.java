@@ -22,5 +22,7 @@ public class MainStudentsLoader {
         }
 
         students.forEach(System.out::println);
+
+
     }
 }
