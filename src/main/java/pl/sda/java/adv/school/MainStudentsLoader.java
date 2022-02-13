@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 public class MainStudentsLoader {
@@ -23,6 +24,42 @@ public class MainStudentsLoader {
 
         students.forEach(System.out::println);
 
+        List<Student> studentsToSort = new LinkedList<>(students);
 
+        Collections.sort(studentsToSort,((o1, o2) -> {
+            int yearResult = o1.getBirthDate().getYear() - o2.getBirthDate().getYear();
+            if (yearResult == 0) {
+                int monthResult = o1.getBirthDate().getMonthValue() - o2.getBirthDate().getMonthValue();
+                if (monthResult == 0) {
+                    int dayResult = o1.getBirthDate().getDayOfMonth() - o2.getBirthDate().getDayOfMonth();
+                    if (dayResult > 0) {
+                        return -1;
+                    } else if(dayResult < 0) {
+                        return 1;
+                    } else {
+                        return 0;
+                    }
+                } else {
+                    if (monthResult > 0) {
+                        return -1;
+                    } else if(monthResult < 0) {
+                        return 1;
+                    } else {
+                        return 0;
+                    }
+                }
+            } else {
+                if (yearResult > 0) {
+                    return -1;
+                } else if(yearResult < 0) {
+                    return 1;
+                } else {
+                    return 0;
+                }
+            }
+        }));
+        System.out.println();
+
+        studentsToSort.forEach(System.out::println);
     }
 }

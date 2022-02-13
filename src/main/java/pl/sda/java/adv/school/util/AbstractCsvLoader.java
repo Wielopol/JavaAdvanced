@@ -18,7 +18,7 @@ public abstract class AbstractCsvLoader<T> {
 
         while (bufferedReader.ready()) {
             final String line = bufferedReader.readLine();
-            System.out.println("Parsing line " + line);
+//            System.out.println("Parsing line " + line);
             parseLine(line).ifPresent(result::add);
         }
 
