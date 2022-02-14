@@ -37,4 +37,15 @@ class StudentServiceTest {
         assertThat(student1.getLastName()).isEqualTo("Kowalski");
     }
 
+    @Test
+    void testGetCityToStudentsMap() {
+        //WHEN
+        final Map<String,List<Student>> map = studentService.getCityToStudentsMap();
+
+        //THEN
+        assertThat(map.get("Krzeszowice"))
+                .hasSize(2)
+                .extracting(Student::getId)
+                .containsExactlyInAnyOrder("00001003","00001007");
+    }
 }
