@@ -7,10 +7,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDate;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -30,69 +27,78 @@ public class MainStudentsLoader {
 
         List<Student> studentsToSort = new LinkedList<>(students);
 
-        Collections.sort(studentsToSort,((o1, o2) -> {
-            int yearResult = o1.getBirthDate().getYear() - o2.getBirthDate().getYear();
-            if (yearResult == 0) {
-                int monthResult = o1.getBirthDate().getMonthValue() - o2.getBirthDate().getMonthValue();
-                if (monthResult == 0) {
-                    int dayResult = o1.getBirthDate().getDayOfMonth() - o2.getBirthDate().getDayOfMonth();
-                    if (dayResult > 0) {
-                        return -1;
-                    } else if(dayResult < 0) {
-                        return 1;
-                    } else {
-                        return 0;
-                    }
-                } else {
-                    if (monthResult > 0) {
-                        return -1;
-                    } else {
-                        return 1;
-                    }
-                }
-            } else {
-                if (yearResult > 0) {
-                    return -1;
-                } else {
-                    return 1;
-                }
-            }
-        }));
+//        Collections.sort(studentsToSort,((o1, o2) -> {
+//            int yearResult = o1.getBirthDate().getYear() - o2.getBirthDate().getYear();
+//            if (yearResult == 0) {
+//                int monthResult = o1.getBirthDate().getMonthValue() - o2.getBirthDate().getMonthValue();
+//                if (monthResult == 0) {
+//                    int dayResult = o1.getBirthDate().getDayOfMonth() - o2.getBirthDate().getDayOfMonth();
+//                    if (dayResult > 0) {
+//                        return -1;
+//                    } else if(dayResult < 0) {
+//                        return 1;
+//                    } else {
+//                        return 0;
+//                    }
+//                } else {
+//                    if (monthResult > 0) {
+//                        return -1;
+//                    } else {
+//                        return 1;
+//                    }
+//                }
+//            } else {
+//                if (yearResult > 0) {
+//                    return -1;
+//                } else {
+//                    return 1;
+//                }
+//            }
+//        }));
+
+        studentsToSort = studentsToSort.stream()
+                .sorted(Comparator.comparing(Student::getBirthDate).reversed())
+                .collect(Collectors.toList());
+
         System.out.println();
 
         studentsToSort.forEach(System.out::println);
 
-        studentsToSort = studentsToSort.stream().sorted(new Comparator<Student>() {
-            @Override
-            public int compare(Student o1, Student o2) {
-                int yearResult = o1.getBirthDate().getYear() - o2.getBirthDate().getYear();
-                if (yearResult == 0) {
-                    int monthResult = o1.getBirthDate().getMonthValue() - o2.getBirthDate().getMonthValue();
-                    if (monthResult == 0) {
-                        int dayResult = o1.getBirthDate().getDayOfMonth() - o2.getBirthDate().getDayOfMonth();
-                        if (dayResult > 0) {
-                            return 1;
-                        } else if(dayResult < 0) {
-                            return -1;
-                        } else {
-                            return 0;
-                        }
-                    } else {
-                        if (monthResult > 0) {
-                            return 1;
-                        } else {
-                            return -1;
-                        }
-                    }
-                } else {
-                    if (yearResult > 0) {
-                        return 1;
-                    } else {
-                        return -1;
-                    }
-                }
-            }
-        }).collect(Collectors.toList());
+//        studentsToSort = studentsToSort.stream().sorted(new Comparator<Student>() {
+//            @Override
+//            public int compare(Student o1, Student o2) {
+//                int yearResult = o1.getBirthDate().getYear() - o2.getBirthDate().getYear();
+//                if (yearResult == 0) {
+//                    int monthResult = o1.getBirthDate().getMonthValue() - o2.getBirthDate().getMonthValue();
+//                    if (monthResult == 0) {
+//                        int dayResult = o1.getBirthDate().getDayOfMonth() - o2.getBirthDate().getDayOfMonth();
+//                        if (dayResult > 0) {
+//                            return 1;
+//                        } else if(dayResult < 0) {
+//                            return -1;
+//                        } else {
+//                            return 0;
+//                        }
+//                    } else {
+//                        if (monthResult > 0) {
+//                            return 1;
+//                        } else {
+//                            return -1;
+//                        }
+//                    }
+//                } else {
+//                    if (yearResult > 0) {
+//                        return 1;
+//                    } else {
+//                        return -1;
+//                    }
+//                }
+//            }
+//        }).collect(Collectors.toList());
+
+        studentsToSort = studentsToSort.stream()
+                .sorted(Comparator.comparing(Student::getBirthDate))
+                .collect(Collectors.toList());
 
         System.out.println();
 
@@ -113,8 +119,8 @@ public class MainStudentsLoader {
 
         studentsToSort.forEach(System.out::println);
 
-        studentsToSort = studentsToSort.stream()
-                .filter(w -> w.getSchoolYear() == 8)
+        List<Student> studentsFiltered = studentsToSort.stream()
+                .filter(s -> s.getSchoolYear() == 8)
                 .sorted(new Comparator<Student>() {
                     @Override
                     public int compare(Student o1, Student o2) {
@@ -128,8 +134,27 @@ public class MainStudentsLoader {
 
         System.out.println();
 
-        studentsToSort.forEach(System.out::println);
+        studentsFiltered.forEach(System.out::println);
 
+        System.out.println();
 
+        displayStudentsRepeatedYear(studentsToSort.stream());
+
+        System.out.println();
+
+        displayOldestStudents(studentsToSort.stream());
+    }
+
+    private static void displayStudentsRepeatedYear (Stream<Student> students) {
+        students.filter(s -> (LocalDate.now().getYear() - s.getSchoolYear() - s.getStartYear() > 0))
+                .forEach(System.out::println);
+    }
+
+    private static void displayOldestStudents (Stream<Student> students) {
+        Map<String, Optional<Student>> oldestStudent = students.collect(Collectors
+                .groupingBy(s -> s.getAddress().getCity(),Collectors
+                        .minBy(Comparator.comparing(Student::getBirthDate))));
+
+        System.out.println(oldestStudent);
     }
 }
